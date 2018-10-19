@@ -36,7 +36,12 @@ extension Array {
     }
 }
 
-class colorViewController: NSViewController {
+extension NSTextField{
+    func controlTextDidChange(obj: NSNotification){}
+    
+}
+
+class colorViewController: NSViewController, NSTextFieldDelegate {
     
     weak var delegate: ChangeMenuColorDelegate?
 
@@ -54,6 +59,9 @@ class colorViewController: NSViewController {
     @IBOutlet weak var blackThemeButtonEl: NSButton!
     @IBOutlet weak var backgroundButtonEl: NSButton!
     @IBOutlet weak var textButtonEL: NSButton!
+    @IBOutlet weak var libraryButtonEl: NSPopUpButton!
+    @IBOutlet weak var baseFieldEl: NSTextField!
+    @IBOutlet weak var boxBaseBackground: NSBox!
     
     let hexaArray = ["#F44336","#9C27B0", "#4CAF50", "#03A9F4", "#FF4081", "#009688"]
     var currentHexaGlobal = "#009688"
@@ -70,6 +78,9 @@ class colorViewController: NSViewController {
         textButtonEL.set(textColor: NSColor(hexString: "C1C1C1"))
         whiteThemeButtonEl.set(textColor: NSColor(hexString: "C1C1C1"))
         blackThemeButtonEl.set(textColor: NSColor(hexString: "C1C1C1"))
+        
+        baseFieldEl.delegate = self
+        
         
         if(globalConfig.base != "none") {
            getShemeFromBase()
@@ -98,13 +109,16 @@ class colorViewController: NSViewController {
         // allow view do receive keypress
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             if self.myKeyDown(with: $0) {
-                return nil
+                if($0.keyCode == 49) {
+                  return nil
+                } else {
+                    return $0
+                }
             } else {
                 return $0
             }
         }
     }
-    
     
     
     // detect the keypress
@@ -204,18 +218,22 @@ class colorViewController: NSViewController {
         var currentHexa = "#FFFFFF"
         
         
-        if(base != globalConfig.base) {
+        if(base != globalConfig.base && globalConfig.base != "none") {
             getShemeFromBase()
             base = globalConfig.base
         }
 
         
-        if(globalConfig.library == "random") {
+        if(globalConfig.library == "Random") {
             currentHexa = getRandomColor()
         } else if(globalConfig.library == "Google material") {
             currentHexa = colorArray.googleMaterialColor.randomItem()!
         } else if(globalConfig.library == "with base") {
-            currentHexa = colorArray.shemeFromBase.randomItem()!
+            if(globalConfig.base != "none") {
+              currentHexa = colorArray.shemeFromBase.randomItem()!
+            } else {
+                currentHexa = getRandomColor()
+            }
         }
         
         currentHexaGlobal = currentHexa as String
@@ -232,15 +250,15 @@ class colorViewController: NSViewController {
     }
     
     override func mouseDown(with theEvent : NSEvent) {
-        
+
         // copy the hexa in user clipboard
         let pasteboard = NSPasteboard.general
         pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
         pasteboard.setString(currentHexaGlobal, forType: NSPasteboard.PasteboardType.string)
-        
+
         // set the new state of NSTextField as show
         copiedToClipLabel.isHidden = false
-        
+
         // set the new state of NSTextField as hidden
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             self.copiedToClipLabel.isHidden = true
@@ -281,6 +299,72 @@ class colorViewController: NSViewController {
     }
     @IBAction func blackThemeAction(_ sender: Any) {
     }
+    
+    // select library settings
+    
+    @IBAction func selectLibraryAction(_ sender: Any) {
+        if let title = libraryButtonEl.titleOfSelectedItem {
+            globalConfig.library = title
+        }
+    }
+    
+    
+    // get base from user
+    
+    override func controlTextDidChange(_ obj: Notification)
+    {
+        var endValue = ""
+        var value = baseFieldEl.stringValue
+        
+        
+        if(value.range(of:"#") != nil) {
+            if(value.count < 7) {
+                // nil
+                globalConfig.base = "none"
+                boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")
+            } else if(value.count > 7) {
+                value = String(value.dropLast())
+                baseFieldEl.stringValue = value
+                boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")!
+            } else {
+                endValue = value
+                globalConfig.base = endValue
+                boxBaseBackground.fillColor = NSColor(hexString: endValue)!
+                if(globalConfig.view == "background") {
+                    backgroundBox.fillColor = NSColor(hexString: endValue as String)!
+                    hexaLabel.stringValue = endValue as String
+                } else if(globalConfig.view == "text") {
+                    backgroundTxt.textColor = NSColor(hexString: endValue as String)!
+                    hexaLabelText.stringValue = endValue as String
+                }
+            }
+        } else {
+            if(value.count < 6) {
+                // nil
+                globalConfig.base = "none"
+                boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")!
+            } else if(value.count > 6) {
+                value = String(value.dropLast())
+                baseFieldEl.stringValue = value
+            } else {
+                endValue = "#" + value
+                globalConfig.base = endValue
+                boxBaseBackground.fillColor = NSColor(hexString: endValue)!
+                if(globalConfig.view == "background") {
+                    backgroundBox.fillColor = NSColor(hexString: endValue as String)!
+                    hexaLabel.stringValue = endValue as String
+                } else if(globalConfig.view == "text") {
+                    backgroundTxt.textColor = NSColor(hexString: endValue as String)!
+                    hexaLabelText.stringValue = endValue as String
+                }
+                
+            }
+        }
+        
+    }
+    
+
+
     
     // save settings
     @IBAction func saveButtonAction(_ sender: Any) {

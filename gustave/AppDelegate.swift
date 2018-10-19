@@ -63,9 +63,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 struct globalConfig {
     static var view = "background"
-    static var base = "#E07C72"
+    static var base = "none"
     static var theme = "white"
-    static var library = "random"
+    static var library = "with base"
 }
 
 struct colorArray {
