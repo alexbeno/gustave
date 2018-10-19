@@ -1,0 +1,20 @@
+PODS:
+  - DynamicColor (4.0.2)
+  - SwiftHEXColors (1.1.1)
+
+DEPENDENCIES:
+  - DynamicColor (~> 4.0.2)
+  - SwiftHEXColors
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DynamicColor
+    - SwiftHEXColors
+
+SPEC CHECKSUMS:
+  DynamicColor: c7adcfe871781a2b39877a5774e452ba51b79eb3
+  SwiftHEXColors: 9681e756dc78a99ae97f277165b3f5e33b087553
+
+PODFILE CHECKSUM: c6e2ec5a56b5a9fedbda9baef7237a0252a0744d
+
+COCOAPODS: 1.5.2
