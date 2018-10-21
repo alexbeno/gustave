@@ -41,6 +41,15 @@ extension NSTextField{
     
 }
 
+extension String {
+    
+    var containsValidCharacter: Bool {
+        let characterSet = CharacterSet(charactersIn: "123456789ABCDEFabcdef#")
+        let range = (self as NSString).rangeOfCharacter(from: characterSet)
+        return range.location != NSNotFound
+    }
+}
+
 class colorViewController: NSViewController, NSTextFieldDelegate {
     
     weak var delegate: ChangeMenuColorDelegate?
@@ -315,50 +324,61 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
     {
         var endValue = ""
         var value = baseFieldEl.stringValue
+        var lastChar = ""
         
+        if(value.count < 2) {
+            lastChar = value
+        } else {
+            lastChar = String(value.last!)
+        }
         
-        if(value.range(of:"#") != nil) {
-            if(value.count < 7) {
-                // nil
-                globalConfig.base = "none"
-                boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")
-            } else if(value.count > 7) {
-                value = String(value.dropLast())
-                baseFieldEl.stringValue = value
-                boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")!
+        if(lastChar.containsValidCharacter == true) {
+            if(value.range(of:"#") != nil) {
+                if(value.count < 7) {
+                    // nil
+                    globalConfig.base = "none"
+                    boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")
+                } else if(value.count > 7) {
+                    value = String(value.dropLast())
+                    baseFieldEl.stringValue = value
+                    boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")!
+                } else {
+                    endValue = value
+                    globalConfig.base = endValue
+                    boxBaseBackground.fillColor = NSColor(hexString: endValue)!
+                    if(globalConfig.view == "background") {
+                        backgroundBox.fillColor = NSColor(hexString: endValue as String)!
+                        hexaLabel.stringValue = endValue as String
+                    } else if(globalConfig.view == "text") {
+                        backgroundTxt.textColor = NSColor(hexString: endValue as String)!
+                        hexaLabelText.stringValue = endValue as String
+                    }
+                }
             } else {
-                endValue = value
-                globalConfig.base = endValue
-                boxBaseBackground.fillColor = NSColor(hexString: endValue)!
-                if(globalConfig.view == "background") {
-                    backgroundBox.fillColor = NSColor(hexString: endValue as String)!
-                    hexaLabel.stringValue = endValue as String
-                } else if(globalConfig.view == "text") {
-                    backgroundTxt.textColor = NSColor(hexString: endValue as String)!
-                    hexaLabelText.stringValue = endValue as String
+                if(value.count < 6) {
+                    // nil
+                    globalConfig.base = "none"
+                    boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")!
+                } else if(value.count > 6) {
+                    value = String(value.dropLast())
+                    baseFieldEl.stringValue = value
+                } else {
+                    endValue = "#" + value
+                    globalConfig.base = endValue
+                    boxBaseBackground.fillColor = NSColor(hexString: endValue)!
+                    if(globalConfig.view == "background") {
+                        backgroundBox.fillColor = NSColor(hexString: endValue as String)!
+                        hexaLabel.stringValue = endValue as String
+                    } else if(globalConfig.view == "text") {
+                        backgroundTxt.textColor = NSColor(hexString: endValue as String)!
+                        hexaLabelText.stringValue = endValue as String
+                    }
+                    
                 }
             }
         } else {
-            if(value.count < 6) {
-                // nil
-                globalConfig.base = "none"
-                boxBaseBackground.fillColor = NSColor(hexString: "#7B7B7B")!
-            } else if(value.count > 6) {
-                value = String(value.dropLast())
-                baseFieldEl.stringValue = value
-            } else {
-                endValue = "#" + value
-                globalConfig.base = endValue
-                boxBaseBackground.fillColor = NSColor(hexString: endValue)!
-                if(globalConfig.view == "background") {
-                    backgroundBox.fillColor = NSColor(hexString: endValue as String)!
-                    hexaLabel.stringValue = endValue as String
-                } else if(globalConfig.view == "text") {
-                    backgroundTxt.textColor = NSColor(hexString: endValue as String)!
-                    hexaLabelText.stringValue = endValue as String
-                }
-                
-            }
+            value = String(value.dropLast())
+            baseFieldEl.stringValue = value
         }
         
     }
