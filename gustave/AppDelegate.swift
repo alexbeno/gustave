@@ -65,7 +65,7 @@ struct globalConfig {
     static var view = "background"
     static var base = "none"
     static var theme = "white"
-    static var library = "with base"
+    static var library = "Random"
 }
 
 struct colorArray {
