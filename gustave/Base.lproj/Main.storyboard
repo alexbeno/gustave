@@ -685,11 +685,11 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="jFO-dm-TBE">
                     <items>
-                        <menuItem title="open picker" id="aZf-Kx-7HN">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                        </menuItem>
                         <menuItem title="quit gustave" id="Z55-PZ-ChK">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="quitAppButton:" target="Voe-Tx-rLC" id="v3L-vx-vog"/>
+                            </connections>
                         </menuItem>
                     </items>
                 </menu>

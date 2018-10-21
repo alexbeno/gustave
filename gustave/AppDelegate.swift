@@ -32,6 +32,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
+    @IBAction func quitAppButton(_ sender: Any) {
+        print("oucouc")
+        NSApplication.shared.terminate(self)
+    }
+    
     @objc func clickHandler(sender: NSStatusItem) {
         print("oucou")
         statusItem.menu = nil
