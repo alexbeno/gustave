@@ -347,6 +347,23 @@ struct colorArray {
     "#FFFFFF",
     ];
     
+    static var flatUiColor = ["#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"]
+    
+    static var flatblue = ["#4D8FAC","#5D8CAE","#22A7F0","#19B5FE","#59ABE3","#48929B","#317589","#89C4F4","#4B77BE","#1F4788","#003171","#044F67","#264348"]
+
+    static var flatgrey = ["#BFBFBF","#F2F1EF","#BDC3C7","#ECF0F1","#D2D7D3","#757D75","#EEEEEE","#ABB7B7","#6C7A89","#95A5A6"]
+    
+    static var flatgreen = ["#7A942E","#8DB255","#5B8930","#6B9362","#407A52","#006442","#87D37C","#26A65B","#26C281","#049372","#2ABB9B","#16A085","#36D7B7","#03A678","#4DAF7C"]
+
+//    -----
+    static var flatpink = ["#F47983","#DB5A6B","#C93756","#FCC9B9","#FFB3A7","#F62459","#F58F84"]
+    
+    static var flatpurple = ["#875F9A","#5D3F6A","#89729E","#763568","#763568","#A87CA0","#5B3256","#BF55EC","#8E44AD","#9B59B6","#BE90D4"]
+
+    static var flatred = ["#C91F37","#DC3023","#9D2933","#CF000F","#E68364","#F22613","#CF3A24","#C3272B","#8F1D21","#D24D57"]
+    
+    static var flatyellow = ["#D9B611","#F3C13A","#F7CA18","#E2B13C","#A17917","#F5D76E","#F4D03F","#FFA400","#E08A1E","#FFB61E","#FAA945","#FFA631","#FFB94E","#E29C45","#F9690E","#CA6924","#F5AB35"]
+    
     static var shemeFromBase = [String]()
 
 }

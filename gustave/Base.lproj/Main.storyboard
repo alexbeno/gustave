@@ -1025,7 +1025,15 @@
                                                                 <items>
                                                                     <menuItem title="Random" state="on" id="HIT-vX-cA2"/>
                                                                     <menuItem title="Google material" id="qDZ-Zl-E5I"/>
-                                                                    <menuItem title="with base" id="WaH-aK-5Gl"/>
+                                                                    <menuItem title="Flat ui color" id="WaH-aK-5Gl"/>
+                                                                    <menuItem title="Flat blue" id="So7-Hv-xdw"/>
+                                                                    <menuItem title="Flat grey" id="fO4-Gl-mCX"/>
+                                                                    <menuItem title="Flat green" id="exN-MQ-1UH"/>
+                                                                    <menuItem title="Flat pink" id="fDj-fn-vfs"/>
+                                                                    <menuItem title="Flat purple" id="gFZ-to-lUn"/>
+                                                                    <menuItem title="Flat red" id="uvP-mn-WHc"/>
+                                                                    <menuItem title="Flat yellow" id="WJw-wH-QYR"/>
+                                                                    <menuItem title="with base" id="4u8-gM-EOX"/>
                                                                 </items>
                                                             </menu>
                                                         </popUpButtonCell>

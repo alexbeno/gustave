@@ -81,6 +81,7 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
         
         // set the initial state of NSTextField as hidden
         copiedToClipLabel.isHidden = true
+        copiedToClipLabelText.isHidden = true
         settingBox.isHidden = true
         
         backgroundButtonEl.set(textColor: NSColor(hexString: "C1C1C1"))
@@ -194,7 +195,6 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
                     colorArray.shemeFromBase.append(currentHexa as String)
                 }
             }
-            print(colorArray.shemeFromBase)
         }
         
         for _ in 1...18 {
@@ -206,7 +206,6 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
                  colorArray.shemeFromBase.append(currentHexa as String)
                 }
             }
-            print(colorArray.shemeFromBase)
         }
         
         for _ in 1...18 {
@@ -218,7 +217,6 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
                     colorArray.shemeFromBase.append(currentHexa as String)
                 }
             }
-            print(colorArray.shemeFromBase)
         }
         
     }
@@ -237,6 +235,22 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
             currentHexa = getRandomColor()
         } else if(globalConfig.library == "Google material") {
             currentHexa = colorArray.googleMaterialColor.randomItem()!
+        } else if(globalConfig.library == "Flat ui color") {
+            currentHexa = colorArray.flatUiColor.randomItem()!
+        } else if(globalConfig.library == "Flat blue") {
+            currentHexa = colorArray.flatblue.randomItem()!
+        } else if(globalConfig.library == "Flat grey") {
+            currentHexa = colorArray.flatgrey.randomItem()!
+        } else if(globalConfig.library == "Flat green") {
+            currentHexa = colorArray.flatgreen.randomItem()!
+        } else if(globalConfig.library == "Flat pink") {
+            currentHexa = colorArray.flatpink.randomItem()!
+        } else if(globalConfig.library == "Flat purple") {
+            currentHexa = colorArray.flatpurple.randomItem()!
+        } else if(globalConfig.library == "Flat red") {
+            currentHexa = colorArray.flatred.randomItem()!
+        } else if(globalConfig.library == "Flat yellow") {
+            currentHexa = colorArray.flatyellow.randomItem()!
         } else if(globalConfig.library == "with base") {
             if(globalConfig.base != "none") {
               currentHexa = colorArray.shemeFromBase.randomItem()!
@@ -267,10 +281,12 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
 
         // set the new state of NSTextField as show
         copiedToClipLabel.isHidden = false
+        copiedToClipLabelText.isHidden = false
 
         // set the new state of NSTextField as hidden
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             self.copiedToClipLabel.isHidden = true
+            self.copiedToClipLabelText.isHidden = true
         }
     }
     
@@ -291,15 +307,23 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
     // view setting
     
     @IBAction func backgroundViewAction(_ sender: Any) {
+        
         globalConfig.view = "background"
         backgroundButtonEl.set(textColor: NSColor(hexString: "222222"))
         textButtonEL.set(textColor: NSColor(hexString: "C1C1C1"))
+        
+        backgroundBox.fillColor = NSColor(hexString: currentHexaGlobal as String)!
+        hexaLabel.stringValue = currentHexaGlobal as String
+
     }
     
     @IBAction func textViewAction(_ sender: Any) {
         globalConfig.view = "text"
         backgroundButtonEl.set(textColor: NSColor(hexString: "C1C1C1"))
         textButtonEL.set(textColor: NSColor(hexString: "222222"))
+        
+        backgroundTxt.textColor = NSColor(hexString: currentHexaGlobal as String)!
+        hexaLabelText.stringValue = currentHexaGlobal as String
     }
     
     
@@ -312,8 +336,54 @@ class colorViewController: NSViewController, NSTextFieldDelegate {
     // select library settings
     
     @IBAction func selectLibraryAction(_ sender: Any) {
+         var currentHexa = "#FFFFFF"
+        
         if let title = libraryButtonEl.titleOfSelectedItem {
             globalConfig.library = title
+        }
+        
+        if(base != globalConfig.base && globalConfig.base != "none") {
+            getShemeFromBase()
+            base = globalConfig.base
+        }
+        
+        
+        if(globalConfig.library == "Random") {
+            currentHexa = getRandomColor()
+        } else if(globalConfig.library == "Google material") {
+            currentHexa = colorArray.googleMaterialColor.randomItem()!
+        } else if(globalConfig.library == "Flat ui color") {
+            currentHexa = colorArray.flatUiColor.randomItem()!
+        } else if(globalConfig.library == "Flat blue") {
+            currentHexa = colorArray.flatblue.randomItem()!
+        } else if(globalConfig.library == "Flat grey") {
+            currentHexa = colorArray.flatgrey.randomItem()!
+        } else if(globalConfig.library == "Flat green") {
+            currentHexa = colorArray.flatgreen.randomItem()!
+        } else if(globalConfig.library == "Flat pink") {
+            currentHexa = colorArray.flatpink.randomItem()!
+        } else if(globalConfig.library == "Flat purple") {
+            currentHexa = colorArray.flatpurple.randomItem()!
+        } else if(globalConfig.library == "Flat red") {
+            currentHexa = colorArray.flatred.randomItem()!
+        } else if(globalConfig.library == "Flat yellow") {
+            currentHexa = colorArray.flatyellow.randomItem()!
+        } else if(globalConfig.library == "with base") {
+            if(globalConfig.base != "none") {
+                currentHexa = colorArray.shemeFromBase.randomItem()!
+            } else {
+                currentHexa = getRandomColor()
+            }
+        }
+        
+        currentHexaGlobal = currentHexa as String
+        
+        if(globalConfig.view == "background") {
+            backgroundBox.fillColor = NSColor(hexString: currentHexa as String)!
+            hexaLabel.stringValue = currentHexa as String
+        } else if(globalConfig.view == "text") {
+            backgroundTxt.textColor = NSColor(hexString: currentHexa as String)!
+            hexaLabelText.stringValue = currentHexa as String
         }
     }
     
